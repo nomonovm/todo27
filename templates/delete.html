@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Delete Task</title>
 </head>
 <body>
-$END$
+<form method="post">
+    {% csrf_token %}
+    <label>{{ task.title }}'ni o'chirmoqchimisiz?</label>
+    <button>Tasdiqlash</button>
+    <a href="{% url 'home' %}">
+        <button type="button">Bekor qilish</button>
+    </a>
+</form>
 </body>
 </html>
