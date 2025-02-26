@@ -8,3 +8,10 @@ urlpatterns = [
     path('<int:pk>/edit/', EditView.as_view(), name='edit'),
     path('<int:pk>/delete/', DeleteView.as_view(), name='edit'),
 ]
+
+# auth
+urlpatterns += [
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('register/', register_view, name='register'),
+]
