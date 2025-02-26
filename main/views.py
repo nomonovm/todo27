@@ -3,12 +3,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .models import *
 
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
+
+
 # from django.core.cache import cache
 # from .utils import send_verification_email
 # import random
-
-
 
 
 class HomeView(View):
@@ -97,28 +97,17 @@ def logout_view(request):
     return redirect('login')
 
 
-
-
 def register_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-
-        if password1 != password2 or username in User.objects.values_list('username', flat=True):
+        if request.POST.get('password1') != request.POST.get('password2') or request.POST.get(
+                'username') in User.objects.values_list('username', flat=True):
             return redirect('register')
-        #
-        # email = request.POST.get('email')
-        #
-        # otp = random.randint(100000, 999999)
-        # cache.set(email, otp, timeout=300)
-        # send_verification_email(email)
-
-        # request.session['temp_user'] = {
-        #     'username': username,
-        #     'email': email,
-        #     'password': password1
-        # }
-
-        return redirect('verify_email')
+        user = User.objects.create_user(
+            username=request.POST.get('username'),
+            password=request.POST.get('password1')
+        )
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        return redirect('register')
     return render(request, 'register.html')
