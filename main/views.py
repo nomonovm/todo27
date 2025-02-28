@@ -111,3 +111,5 @@ def register_view(request):
             return redirect('home')
         return redirect('register')
     return render(request, 'register.html')
+
+
